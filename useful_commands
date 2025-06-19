@@ -1,0 +1,16 @@
+srun --hint=nomultithread -n ${SLURM_NTASKS} /scratch/subrambm/dec-fd-version-2/decfd -chebyshev_grid 1 -dec 1 -fd 1 -alpha 1.0 -num_layers 32 -dm_refine_pre 3 -ts_max_steps 10000 -ts_dt 0.001 -ts_max_time 10 -test_case 3 -mms 0 -aspectRatio 0.8 -pc_type lu -pc_factor_mat_solver_type superlu_dist -Rayleigh 7000000 -Prandtl 1 -homogeneousNeumannPressureBC 1 -vtk_monitor_interval 1
+
+salloc --nodes=1 --ntasks-per-node=192 --time=00:30:00
+
+srun --hint=nomultithread -n \${SLURM_NTASKS}
+find . -type f -exec touch {} +
+
+
+read -p "Enter the file name : " file
+read -p "Enter the string to search for in the file : " str
+
+grep "^$str" $file | { grep -v grep || true; }
+awk -v s="$my_string" 'index($0, s) == 1' file
+
+list directories with size
+du -h --max-depth=1
